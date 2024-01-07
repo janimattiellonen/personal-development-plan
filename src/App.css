@@ -1,0 +1,56 @@
+@import '@radix-ui/colors/gray.css';
+@import '@radix-ui/colors/blue.css';
+@import '@radix-ui/colors/red.css';
+
+/*
+ https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
+*/
+
+button,
+fieldset,
+input {
+    all: unset;
+}
+
+:root {
+    --foo: red;
+    --background: var(--gray-1);
+    --component: var(--gray-2);
+
+    --border: var(--gray-6);
+
+    --space-xxs: 2px;
+    --space-xs: 4px;
+    --space-md: 8px;
+    --space-xl: 16px;
+    --space-xxl: 32px;
+
+
+    --error-text: var(--red-11);
+}
+
+body {
+    background: var(--background);
+    margin: 0 auto;
+    margin-top: 64px;
+
+    width: 80%;
+}
+
+h1 {
+    margin-bottom: var(--space-xxl);
+}
+
+
+input[type="submit"] {
+    background: var(--blue-5);
+    border: solid 1px var(--blue-8);
+    border-radius: 8px;
+}
+
+input[type="submit"]:hover {
+    background: var(--blue-6);
+    border: solid 1px var(--border);
+}
+
+
