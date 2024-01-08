@@ -53,4 +53,34 @@ input[type="submit"]:hover {
     border: solid 1px var(--border);
 }
 
+input[type="submit"]:focus {
+    outline: solid 2px var(--blue-7);
+}
 
+.react-aria-Popover {
+    border: solid 1px var(--gray-5);
+    background: var(--gray-2);
+    color: black;
+    box-sizing: border-box;
+    border-radius: 6px;
+    outline: none;
+    max-width: 250px;
+    box-shadow: 0 8px 20px #0000001a;
+    padding: var(--space-md);
+}
+
+.react-aria-Popover table {
+    width: 100%;
+}
+
+.react-aria-Popover header {
+    display: flex;
+    background: var(--gray-4);
+    padding: var(--space-md);
+    gap: var(--space-md);
+    align-items: center;
+}
+
+.react-aria-Popover header h2 {
+    margin: 0;
+}

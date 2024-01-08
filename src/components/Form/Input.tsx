@@ -16,6 +16,8 @@ const StyledTextFieldRoot = styled(TextField.Root)`
   display: flex;
   flex-direction: column;
   margin-bottom: var(--space-xl);
+  
+
 `;
 
 const StyledLabel = styled(Label.Root)`
@@ -28,6 +30,10 @@ const StyledTextField = styled(TextField.Input)`
   border: solid 1px var(--gray-5);
   border-radius: 4px;
   background: var(--gray-1);
+
+  &:focus {
+    outline: solid 2px var(--blue-7);
+  }
 `;
 
 

@@ -13,6 +13,7 @@ export function Navigation() {
   return (
     <StyledNav>
       <Link to={'/admin/student/new'} >Add new student</Link>
+      <Link to={'/admin/development-plan/new'} >Add new development plan</Link>
     </StyledNav>
   );
 }

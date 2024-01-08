@@ -1,15 +1,16 @@
-import {useForm, SubmitHandler, FormProvider} from "react-hook-form"
+import {useEffect} from "react";
 
-import styled from "@emotion/styled";
+import {useForm, SubmitHandler, FormProvider} from "react-hook-form"
 
 import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import {setLocale} from 'yup';
 
 import {Input} from "../../../components/Form/Input";
-import {useEffect} from "react";
 
 import * as RadioGroup from '../../../components/Form/RadioGroup'
+
+import {Wrapper} from "../../../components/Wrapper";
 
 const schema = yup
   .object({
@@ -34,13 +35,6 @@ type Inputs = {
   type: string
   userRole: string
 }
-
-const Wrapper = styled.div`
-  background: var(--component);
-  padding: 16px;
-  border-radius: 8px;
-  border: solid 1px var(--gray-6);
-`;
 
 export function NewStudentForm() {
   const methods = useForm<Inputs>({
