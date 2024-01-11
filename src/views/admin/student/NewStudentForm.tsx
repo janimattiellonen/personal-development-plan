@@ -6,7 +6,7 @@ import {yupResolver} from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import {setLocale} from 'yup';
 
-import {Input} from "../../../components/Form/Input";
+import * as Input from "../../../components/Form/Input";
 
 import * as RadioGroup from '../../../components/Form/RadioGroup'
 
@@ -95,13 +95,13 @@ export function NewStudentForm() {
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)}>
 
-        <Input id="username" label={'Username'} name="username"/>
-        <Input type="password" id="password" label={'password'} name="password"/>
+        <Input.Text id="username" label={'Username'} name="username"/>
+        <Input.Text type="password" id="password" label={'password'} name="password"/>
 
-        <Input id="firstName" label={'Firstname'} name="firstName"/>
-        <Input id="lastName" label={'Lastname'} name="lastName"/>
+        <Input.Text id="firstName" label={'Firstname'} name="firstName"/>
+        <Input.Text id="lastName" label={'Lastname'} name="lastName"/>
 
-        <Input id="age" label={'Age'} name="age"/>
+        <Input.Text id="age" label={'Age'} name="age"/>
         <RadioGroup.Root fieldName={'type'} id="user-type" label="Type">
           <RadioGroup.Item id="type-student" value="student">Student</RadioGroup.Item>
           <RadioGroup.Item id="type-instructor" value="instructor">Instructor</RadioGroup.Item>

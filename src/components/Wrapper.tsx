@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import {ReactNode} from "react";
 
 const StyledWrapper = styled.div`
-  background: var(--component);
+  background: var(--color-neutral-background);
   padding: 16px;
   border-radius: 8px;
   border: solid 1px var(--gray-6);

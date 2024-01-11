@@ -5,19 +5,24 @@ import { CheckIcon } from '@radix-ui/react-icons';
 import * as Label from '@radix-ui/react-label';
 
 const StyledCheckBox = styled(RadixCheckbox.Root)`
-  background: var(--blue-5);
+  background: var(--button-accent-primary-default-background);
+  border: solid 1px var(--button-accent-primary-default-border);
   width: 20px;
   height: 20px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-accent-text-weak);
 
   &:hover {
-    background-color: var(--blue-7);
+    background: var(--button-accent-primary-hover-background);
+    border: solid 1px var(--button-accent-primary-hover-border);  
   }
+  
   &:focus {
-    outline: solid 2px var(--blue-7);
+    background: var(--button-accent-primary-active-background);
+    outline: solid 2px var(--button-accent-primary-active-outline);
   }
 `;
 

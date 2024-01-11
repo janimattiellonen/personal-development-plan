@@ -3,12 +3,11 @@ import {Button, Calendar, CalendarCell, CalendarGrid, DateInput, DatePicker as R
 
 import {useFormContext, Controller } from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
-
-
-import styled from "@emotion/styled";
-import {Error} from "./Error";
 import {ExclamationTriangleIcon} from "@radix-ui/react-icons";
 
+import styled from "@emotion/styled";
+
+import {Error} from "./Error";
 
 const Wrapper = styled.div`
   color: black;
@@ -20,25 +19,27 @@ const Wrapper = styled.div`
   }
 
   .react-aria-Button {
-    background: var(--blue-5);
-    color: var(--blue-9);
+    background: var(--button-accent-primary-default-background);
+    border: solid 1px var(--button-accent-primary-default-border);
+    color: var(--color-accent-text-weak);
     forced-color-adjust: none;
     border-radius: 4px;
-    border: none;
     margin-left: -1.929rem;
-    width: 1.429rem;
-    height: 1.429rem;
+    width: 20px;
+    height: 18px;
     padding: 0;
-    font-size: 0.857rem;
+    font-size: 10px;
     box-sizing: content-box;
     display: flex;
     justify-content: center;
     align-items: center;
+    line-height: 15px;
+    padding-top: 2px;
 
     &[data-pressed] {
       box-shadow: none;
-      background: var(--blue-8);
-      color: var(--blue-9);
+      background: var(--color-accent-component);
+      color: var(--color-accent-text-weak);
     }
 
     &[data-focus-visible] {
@@ -46,20 +47,27 @@ const Wrapper = styled.div`
       outline-offset: 2px;
     }
 
+    &:hover {
+      background: var(--button-accent-primary-hover-background);
+      border: solid 1px var(--button-accent-primary-hover-border);
+    }
+    
     &:focus {
-      outline: solid 2px var(--blue-7);
+      background: var(--button-accent-primary-active-background);
+      outline: solid 2px var(--button-accent-primary-active-outline);
     }
   }
 
   .react-aria-DateInput {
-    border: solid 1px var(--gray-5);
+    border: solid 1px var(--color-neutral-border-weak);
     background: white;
     white-space: nowrap;
     border-radius: 6px;
     width: fit-content;
     min-width: 150px;
-    padding: 4px;
     display: flex;
+    padding: var(--space-md);
+
 
     &:focus-within {
       outline: solid 2px var(--blue-7);
@@ -68,11 +76,11 @@ const Wrapper = styled.div`
 
   .react-aria-Popover {
     --background-color: var(--overlay-background);
-    border: 1px solid var(--border-color);
+    border: solid 1px var(--color-neutral-border-weak);
     background: var(--background-color);
     color: var(--text-color);
     box-sizing: border-box;
-    border-radius: 6px;
+    border-radius: var(--space-xs);
     outline: none;
     max-width: 250px;
     box-shadow: 0 8px 20px #0000001a;
@@ -84,7 +92,10 @@ const Wrapper = styled.div`
   
   .react-aria-Popover[data-trigger=DatePicker] {
     max-width: unset;
-    
+  }
+
+  .react-aria-Input[hidden] {
+    display: none;
   }
 `;
 

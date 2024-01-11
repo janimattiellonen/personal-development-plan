@@ -17,23 +17,28 @@ const StyledRadioGroupRoot = styled(RadixRadioGroup.Root)`
 `
 
 const StyledRadioGroupItem = styled(RadixRadioGroup.Item)`
-  background: var(--blue-2);
-  border: solid 2px var(--blue-5);
+  background: var(--button-accent-primary-default-background);
+  border: solid 1px var(--button-accent-primary-default-border);
   border-radius: 100%;
   width: 20px;
   height: 20px;
 
   &:hover {
-    border: solid 2px var(--blue-9);
+    background: var(--button-accent-primary-hover-background);
+    border: solid 1px var(--button-accent-primary-hover-border);
+  }
+
+  &:focus {
+    background: var(--button-accent-primary-active-background);
+    outline: solid 2px var(--button-accent-primary-active-outline);
   }
 
   &[data-state="checked"] {
-    background: var(--blue-4);
-    border: solid 2px var(--blue-9);
+    border: solid 1px var(button-accent-primary-active-border);
   }
 
   &[data-state="checked"]:hover {
-    border: solid 2px var(--blue-9);
+    border: solid 1px var(--button-accent-primary-hover-border);
   }
   
   .RadioGroupIndicator {
@@ -51,8 +56,7 @@ const StyledRadioGroupItem = styled(RadixRadioGroup.Item)`
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--blue-11);
-
+    background: var(--color-accent-text-weak);
   }
 `
 
