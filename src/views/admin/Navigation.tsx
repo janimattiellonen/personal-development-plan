@@ -8,12 +8,13 @@ const StyledNav = styled.nav`
   margin-bottom: var(--space-xxl);
 `;
 
-
 export function Navigation() {
   return (
     <StyledNav>
       <Link to={'/admin/student/new'} >Add new student</Link>
       <Link to={'/admin/development-plan/new'} >Add new development plan</Link>
+      <Link to={'/admin/club/new'} >Add new club</Link>
+      <Link to={'/admin/clubs'} >List clubs</Link>
     </StyledNav>
   );
 }

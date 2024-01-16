@@ -5,7 +5,7 @@ export function Index() {
     <div>
       <h1>Personal development plan</h1>
 
-      <p><Link to={'/student/new'}>Add new student</Link></p>
+      <p><Link to={'/student/new'}>Add new studentsss</Link></p>
     </div>
   );
 }

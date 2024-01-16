@@ -36,7 +36,7 @@ type Inputs = {
   userRole: string
 }
 
-export function NewStudentForm() {
+export default function NewStudentForm() {
   const methods = useForm<Inputs>({
     defaultValues: {
       username: '',
@@ -78,7 +78,7 @@ export function NewStudentForm() {
       }
     }
 
-    fetch('http://localhost:9100/api/admin/student', {
+    fetch(`${import.meta.env.VITE_API_URL}/api/admin/student`, {
       method: 'post',
       headers: {
         "Content-Type": "application/json",

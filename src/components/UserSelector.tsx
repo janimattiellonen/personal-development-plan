@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {ReactNode, useState} from "react";
 import {useFormContext} from "react-hook-form";
 
 import {Table} from "@radix-ui/themes";
@@ -7,14 +7,21 @@ import {Button} from "react-aria-components";
 import * as Input from '../components/Form/Input';
 
 import styled from "@emotion/styled";
-import {Error} from "./Error";
+import {Error as ErrorElement} from "./Error";
 import {ExclamationTriangleIcon} from "@radix-ui/react-icons";
 import {ErrorMessage} from "@hookform/error-message";
-
 
 const SelectedUser = styled.div`
   padding: var(--space-md);
   margin: var(--space-xl) 0 var(--space-xl) 0;
+`;
+
+const StyledTable = styled(Table.Root)`
+  width: 100%;
+  
+  table {
+    width: 100%;
+  }
 `;
 
 const UserList = styled.div`
@@ -23,15 +30,33 @@ const UserList = styled.div`
   gap: var(--space-md);
   margin-bottom: var(--space-xxl);
   padding: var(--space-md);
-
 `;
 
+
+const StyledRow = styled(Table.Row)`
+  background: var(--gray-5);
+  
+  &:nth-of-type(even) {
+    background: var(--gray-3);
+  }
+  
+  td {
+    padding: var(--space-xs) var(--space-md);
+  }
+`;
 
 type UserType = {
   id: number;
   name: string;
+  email: string
 }
-export function UserSelector() {
+
+type UserSelectorProps = {
+  name: string;
+  title?: string | ReactNode;
+  type: 'student' | 'instructor';
+}
+export function UserSelector({name, title, type}: UserSelectorProps) {
   const [users, setUsers] = useState<UserType[]>([])
   const [selectedUser, setSelectedUser] = useState<UserType | undefined>(undefined);
   const {setValue,formState: {errors}} = useFormContext();
@@ -39,7 +64,11 @@ export function UserSelector() {
     console.log(e.target.value);
     const term = e.target.value;
 
-    const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/student/?term=${term}`)
+    if (!['student', 'instructor'].includes(type)) {
+      throw new Error(`Invalid type ${type}`);
+    }
+
+    const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/student/?term=${term}&type=${type}`)
 
     const json = await res.json();
 
@@ -48,7 +77,7 @@ export function UserSelector() {
 
 
   return <div>
-    <h1>User selector</h1>
+    {title != null && <h1>{title}</h1>}
 
     <Input.Text onChange={handleEvent} />
 
@@ -56,62 +85,49 @@ export function UserSelector() {
         <h2>Selected user</h2>
 
         <div>
-          {selectedUser.id}: {selectedUser.name}
+          {selectedUser.id}: {selectedUser.name} ({selectedUser.email})
         </div>
     </SelectedUser>}
 
     <ErrorMessage
       errors={errors}
-      name={'student'}
-      render={({ message }) => <Error><ExclamationTriangleIcon/>{message}</Error>}
+      name={name}
+      render={({ message }) => <ErrorElement><ExclamationTriangleIcon/>{message}</ErrorElement>}
     />
 
-    <Table.Root variant="ghost">
-      <Table.Header>
-        <Table.Row>
-          <Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell>Group</Table.ColumnHeaderCell>
-        </Table.Row>
-      </Table.Header>
+    {users.length > 0 && <UserList>
+        <StyledTable variant="ghost">
+          <Table.Header>
+            <Table.Row>
+              <Table.ColumnHeaderCell>#</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell>Email</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+          {users.map( (user: UserType) => {
+            return (
+              <StyledRow key={user.id}>
+                <Table.Cell>{user.id}</Table.Cell>
+                <Table.Cell>{user.name}</Table.Cell>
+                <Table.Cell>{user.email}</Table.Cell>
+                <Table.Cell><Button style={{marginLeft: 16}} onPress={
+                  () => {
+                    setValue(name, user.id);
+                    setSelectedUser(user);
+                  }}>Select</Button>
+                  {selectedUser?.id === user.id && <Button className="danger" style={{marginLeft: 16}} onPress={
+                    () => {
+                      setValue(name, undefined);
+                      setSelectedUser(undefined);
+                    }}>Remove</Button>}</Table.Cell>
+              </StyledRow>
+            )
+          })}
+          </Table.Body>
+        </StyledTable>
 
-      <Table.Body>
-        <Table.Row>
-          <Table.RowHeaderCell>Danilo Sousa</Table.RowHeaderCell>
-          <Table.Cell>danilo@example.com</Table.Cell>
-          <Table.Cell>Developer</Table.Cell>
-        </Table.Row>
-
-        <Table.Row>
-          <Table.RowHeaderCell>Zahra Ambessa</Table.RowHeaderCell>
-          <Table.Cell>zahra@example.com</Table.Cell>
-          <Table.Cell>Admin</Table.Cell>
-        </Table.Row>
-
-        <Table.Row>
-          <Table.RowHeaderCell>Jasper Eriksson</Table.RowHeaderCell>
-          <Table.Cell>jasper@example.com</Table.Cell>
-          <Table.Cell>Developer</Table.Cell>
-        </Table.Row>
-      </Table.Body>
-    </Table.Root>
-
-    <UserList>
-      {users.length > 0 && users.map( (user: UserType, i: number) => {
-        return <div key={i}>
-          <span>{user.id}: {user.name}</span>
-          <Button style={{marginLeft: 16}} onPress={
-            () => {
-              setValue('student', user.id);
-              setSelectedUser(user);
-            }}>Select</Button>
-          {selectedUser?.id === user.id && <Button className="danger" style={{marginLeft: 16}} onPress={
-            () => {
-              setValue('student', undefined);
-              setSelectedUser(undefined);
-            }}>Remove</Button>}
-        </div>
-      })}
-    </UserList>
+    </UserList>}
   </div>
 }

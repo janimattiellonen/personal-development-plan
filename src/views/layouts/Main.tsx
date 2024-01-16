@@ -1,3 +1,4 @@
+import {Suspense} from "react";
 import {Outlet} from "react-router-dom";
 import styled from "@emotion/styled";
 
@@ -10,13 +11,14 @@ const StyledMain = styled.main`
   max-width: 700px;
 `;
 
-
 export function Main() {
   return (
     <div>
       <Navigation />
       <StyledMain>
-        <Outlet />
+        <Suspense fallback={<div>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </StyledMain>
 
     </div>
