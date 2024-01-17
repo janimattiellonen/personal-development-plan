@@ -12,6 +12,10 @@ import * as RadioGroup from '../../../components/Form/RadioGroup'
 
 import {Wrapper} from "../../../components/Wrapper";
 
+import {Alert} from "../../../components/Alert";
+import {Loader} from "../../../components/Loader";
+import {ServerError} from "../../../components/ServerError";
+
 const schema = yup
   .object({
     username: yup.string().min(3).max(255).required(),
@@ -62,9 +66,13 @@ export default function NewStudentForm() {
       }
     })
   }, [])
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(JSON.stringify(data,null,2));
-/*
+
+
+  const {setError, handleSubmit, formState: { isSubmitting, isSubmitSuccessful}} = methods;
+
+
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+
     const convert = () => {
       return {
         email: data.username,
@@ -78,7 +86,7 @@ export default function NewStudentForm() {
       }
     }
 
-    fetch(`${import.meta.env.VITE_API_URL}/api/admin/student`, {
+   const result = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/student`, {
       method: 'post',
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +94,13 @@ export default function NewStudentForm() {
       body: JSON.stringify(convert())
     })
 
- */
+    const json = await result.json()
+
+    if (!result.ok) {
+      setError('root.serverError', {
+        message: json.message || 'Server error',
+      });
+    }
   }
 
   return <Wrapper>
@@ -111,6 +125,12 @@ export default function NewStudentForm() {
           <RadioGroup.Item id="role-user" value="user">User</RadioGroup.Item>
           <RadioGroup.Item id="role-admin" value="admin">Admin</RadioGroup.Item>
         </RadioGroup.Root>
+
+        {isSubmitting && <Loader />}
+
+        <ServerError errorMessage="Could not create student"/>
+        {isSubmitSuccessful && <Alert color="green">Student was successfully updated</Alert>}
+
         <input type="submit"/>
       </form>
     </FormProvider>

@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {useForm, SubmitHandler, FormProvider} from "react-hook-form"
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,6 +15,9 @@ import {UserSelector} from "../../../components/UserSelector";
 import {Button} from "../../../components/Button";
 
 import {Alert} from "../../../components/Alert";
+import {Loader} from "../../../components/Loader";
+import {ServerError} from "../../../components/ServerError";
+
 
 const dateValidator = z.preprocess((val) => {
   const f: DateValue = val as DateValue;
@@ -44,15 +46,7 @@ type Inputs = {
   instructor: number
 }
 
-type SubmitStatus = {
-  loading: boolean;
-  saving: boolean;
-  saved: boolean;
-}
-
 export default function NewDevelopmentPlanForm() {
-  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>({loading: false, saving: false, saved: false});
-
   const methods = useForm<Inputs>({
     defaultValues: {
       name: '',
@@ -66,14 +60,10 @@ export default function NewDevelopmentPlanForm() {
     resolver: zodResolver(schema)
   })
 
-  const {setError, handleSubmit, formState: {errors}} = methods;
-
+  const {setError, handleSubmit, formState: { isSubmitting, isSubmitSuccessful}} = methods;
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(`data: ${JSON.stringify(data,null,2)}`);
     const f: Date = data?.startsAt as Date;
-    console.log(`f: ${JSON.stringify(f, null,2)}`);
-    console.log("H: " + f.getFullYear());
 
     const convert = () => {
       return {
@@ -87,9 +77,7 @@ export default function NewDevelopmentPlanForm() {
       }
     }
 
-    setSubmitStatus(() => {return{loading: false, saving: true, saved: false}});
-
-    const result = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/personal-plan`, {
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/development-plan`, {
       method: 'post',
       headers: {
         "Content-Type": "application/json",
@@ -99,15 +87,11 @@ export default function NewDevelopmentPlanForm() {
 
     const json = await result.json()
 
-    setSubmitStatus((state) => {return {...state, saving: false}});
-
-    if (result.status >= 300) {
+    if (!result.ok) {
       setError('root.serverError', {
         type: "" + result.status,
         message: json.message,
       });
-    } else if (result.status >= 200 && result.status < 300) {
-      setSubmitStatus((state) => {return{...state, saved: true}});
     }
   }
 
@@ -127,8 +111,10 @@ export default function NewDevelopmentPlanForm() {
           <UserSelector name={'student'} title={'Select student'} type={'student'} />
           <UserSelector name={'instructor'} title={'Select instructor'} type={'instructor'}/>
 
-          {errors?.root?.serverError?.message && <Alert color="red">Could not create development plan: {errors?.root?.serverError?.message}</Alert>}
-          {submitStatus.saved === true && <Alert color="green">Development plan was successfully created</Alert>}
+          {isSubmitting && <Loader />}
+
+          <ServerError errorMessage="Could not create development plan"/>
+          {isSubmitSuccessful && <Alert color="green">Development plan was successfully updated</Alert>}
 
           <Button type="submit">Submit</Button>
         </form>

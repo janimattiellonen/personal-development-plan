@@ -50,10 +50,10 @@ export function Checkbox({id, className, name, label}: CheckboxProps) {
       name={name}
       control={control}
       render={({field}) => {
-        const {onChange} = field
+        const {onChange, value, ...rest} = field
         return (
           <Wrapper>
-          <StyledCheckBox onCheckedChange={onChange} id={id} className={className} {...field}>
+          <StyledCheckBox checked={value} onCheckedChange={onChange} id={id} className={className} {...rest}>
             <RadixCheckbox.Indicator>
               <CheckIcon/>
             </RadixCheckbox.Indicator>

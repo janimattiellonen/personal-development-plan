@@ -1,6 +1,9 @@
 import {Table} from "@radix-ui/themes";
 import styled from "@emotion/styled";
 
+import {Link} from "react-router-dom";
+
+import {Pencil2Icon} from "@radix-ui/react-icons";
 
 const StyledTable = styled(Table.Root)`
   width: 100%;
@@ -35,6 +38,7 @@ export function ClubTable({data}: ClubTableProps) {
             <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell>Is active</Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell></Table.ColumnHeaderCell>
+
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -44,6 +48,7 @@ export function ClubTable({data}: ClubTableProps) {
                 <Table.Cell>{club.id}</Table.Cell>
                 <Table.Cell>{club.name}</Table.Cell>
                 <Table.Cell>{club.is_active}</Table.Cell>
+                <Table.Cell><Link to={`/admin/club/${club.id}/edit`}><Pencil2Icon /></Link></Table.Cell>
               </StyledRow>
             );
           })}

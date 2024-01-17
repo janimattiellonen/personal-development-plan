@@ -7,9 +7,10 @@ import {ExclamationTriangleIcon} from "@radix-ui/react-icons";
 import {ComponentProps, ReactNode} from "react";
 
 const StyledAlert = styled(Callout.Root)`
-  padding: var(--space-md);
-  gap: var(--space-xl);
   align-items: center;
+  border-radius: var(--radius-xs);
+  gap: var(--space-xl);
+  padding: var(--space-md);
 `;
 
 type AlertProps = {
