@@ -25,7 +25,7 @@ export function AutoComplete() {
       console.log("URL: " + import.meta.env.VITE_API_URL)
 
       const res = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/admin/student/?term=${filterText}`,
+        `${import.meta.env.VITE_API_URL}/api/admin/students/?term=${filterText}`,
         //`https://swapi.py4e.com/api/people/?search=${filterText}`,
 
         { signal }

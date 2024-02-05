@@ -3,7 +3,7 @@ import { useFormContext} from "react-hook-form";
 import {Alert} from "./Alert";
 
 type ServerErrorProps = {
-  errorMessage?: string;
+  errorMessage?: string | null;
 }
 export function ServerError({errorMessage}: ServerErrorProps) {
   const { formState: {errors}} = useFormContext();

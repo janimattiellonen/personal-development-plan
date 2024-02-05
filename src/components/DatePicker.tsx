@@ -1,6 +1,8 @@
 import type {DatePickerProps, DateValue, ValidationResult} from 'react-aria-components';
 import {Button, Calendar, CalendarCell, CalendarGrid, DateInput, DatePicker as RADatePicker, DateSegment, Dialog, FieldError, Group, Heading, Label, Popover, Text} from 'react-aria-components';
 
+import { parseDate} from "@internationalized/date";
+
 import {useFormContext, Controller } from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import {ExclamationTriangleIcon} from "@radix-ui/react-icons";
@@ -106,21 +108,21 @@ interface MyDatePickerProps<T extends DateValue> extends DatePickerProps<T> {
   errorMessage?: string | ((validation: ValidationResult) => string);
 }
 
-export function DatePicker<T extends DateValue>(
-  { name, label, description, errorMessage, ...props }: MyDatePickerProps<T>
+export function DatePicker(
+  { name, label, description, errorMessage, ...props }: MyDatePickerProps<DateValue>
 ) {
   const { control, formState: {errors}} = useFormContext();
 
-  //  console.log(`date: ${JSON.stringify(date?.toDate('Europe/Helsinki'),null,2)}`)
   return (
     <Controller
       name={name}
       control={control}
       render={({field}) => {
-        const {onChange, ...rest} = field;
+        const {onChange, value, ...rest} = field;
+        console.log(`value A: ${value}`);
         return (
           <Wrapper>
-            <RADatePicker {...props} {...rest} onChange={onChange}>
+            <RADatePicker value={value ? parseDate(value)  : null} {...props} {...rest} onChange={(value) => onChange(value && value.toString())}>
               <Label>{label}</Label>
               <Group>
                 <DateInput>

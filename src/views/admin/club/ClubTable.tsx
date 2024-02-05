@@ -1,37 +1,58 @@
-import {Table} from "@radix-ui/themes";
-import styled from "@emotion/styled";
+import {useState} from "react";
 
 import {Link} from "react-router-dom";
 
-import {Pencil2Icon} from "@radix-ui/react-icons";
+import {Cross1Icon, Pencil2Icon} from "@radix-ui/react-icons";
 
-const StyledTable = styled(Table.Root)`
-  width: 100%;
-  
-  table {
-    width: 100%;
-  }
-`;
+import {removeClub} from "./club";
 
-const StyledRow = styled(Table.Row)`
-  background: var(--gray-5);
+import {Alert} from "../../../components/Alert";
 
-  &:nth-of-type(even) {
-    background: var(--gray-3);
-  }
+import * as Table from "../../../components/Table";
 
-  td {
-    padding: var(--space-xs) var(--space-md);
-  }
-`;
+import {ClubType} from "../../../types/types";
 
 type ClubTableProps = {
   data: ClubType[];
 }
+
+function createErrorMessage(response: Response): string | null {
+  if (response.ok) {
+    return null;
+  }
+
+  if (response.status === 403) {
+    return 'Could not remove the book due to lacking permissions.'
+  }
+
+  if (response.status === 404) {
+    return 'The club you tried to remove does not exist.';
+  }
+
+  if (response.status >= 400 && response.status < 500) {
+    return 'Could not remove the book due to an error.'
+  }
+
+  if (response.status >= 500) {
+    return 'Could not remove the book due to a server error.';
+  }
+
+  return null;
+}
+
 export function ClubTable({data}: ClubTableProps) {
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const handleRemove = async (id: number) => {
+    const response = await removeClub(id);
+
+    if (!response.ok) {
+      setErrorMessage(createErrorMessage(response));
+    }
+  }
   return (
     <div>
-      <StyledTable variant={"ghost"}>
+      <Table.Root variant={"ghost"}>
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Id</Table.ColumnHeaderCell>
@@ -44,17 +65,19 @@ export function ClubTable({data}: ClubTableProps) {
         <Table.Body>
           {data.map( (club: ClubType) => {
             return (
-              <StyledRow key={club.id}>
+              <Table.Row key={club.id}>
                 <Table.Cell>{club.id}</Table.Cell>
                 <Table.Cell>{club.name}</Table.Cell>
-                <Table.Cell>{club.is_active}</Table.Cell>
-                <Table.Cell><Link to={`/admin/club/${club.id}/edit`}><Pencil2Icon /></Link></Table.Cell>
-              </StyledRow>
+                <Table.Cell>{club.isActive}</Table.Cell>
+                <Table.Cell><Link to={`/admin/club/${club.id}/edit`}><Pencil2Icon /></Link> <Link to={`/admin/club/${club.id}/edit`}></Link><Cross1Icon onClick={() => handleRemove(club.id)}/></Table.Cell>
+              </Table.Row>
             );
           })}
         </Table.Body>
 
-      </StyledTable>
+      </Table.Root>
+
+      {errorMessage && <Alert color="red">{errorMessage}</Alert>}
     </div>
   );
 }

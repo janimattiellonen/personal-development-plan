@@ -1,10 +1,7 @@
-import {useEffect} from "react";
-
 import {useForm, SubmitHandler, FormProvider} from "react-hook-form"
 
-import {yupResolver} from "@hookform/resolvers/yup"
-import * as yup from "yup"
-import {setLocale} from 'yup';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 import * as Input from "../../../components/Form/Input";
 
@@ -16,17 +13,15 @@ import {Alert} from "../../../components/Alert";
 import {Loader} from "../../../components/Loader";
 import {ServerError} from "../../../components/ServerError";
 
-const schema = yup
+const schema = z
   .object({
-    username: yup.string().min(3).max(255).required(),
-    password: yup.string().min(5).max(255).required(),
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    age: yup.number().integer('sss').min(2, 'Age must be at least 2').max(120, 'Age must be 120 at most').nullable().transform((v, o) => {
-      return o === '' ? null : v;
-    }),
-    type: yup.string().required(),
-    userRole: yup.string().required()
+    username: z.string().min(3).max(255),
+    password: z.string().min(5).max(255),
+    firstName: z.string(),
+    lastName: z.string(),
+    age: z.coerce.number().min(5),
+    type: z.string(),
+    userRole: z.string()
   })
   .required()
 
@@ -49,44 +44,22 @@ export default function NewStudentForm() {
       lastName: '',
       age: undefined
     },
-    resolver: yupResolver(schema)
-
+    resolver: zodResolver(schema)
   })
 
-  useEffect(() => {
-    setLocale({
-      mixed: {
-        default: 'luss',
-        notType: 'sss',
-        defined: 'sdfdfg'
-      },
-      number: {
-        integer: 'ssdf',
-        min: 'dsfgdfg'
-      }
-    })
-  }, [])
-
-
-  const {setError, handleSubmit, formState: { isSubmitting, isSubmitSuccessful}} = methods;
-
+  const {setError, formState: { isSubmitting, isSubmitSuccessful}} = methods;
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-
+    console.log(`data: ${JSON.stringify(data,null,2)}`);
     const convert = () => {
       return {
-        email: data.username,
-        password: data.password,
+        ...data,
         name: `${data.firstName} ${data.lastName}`,
-        first_name: data.firstName,
-        last_name: data.lastName,
-        age: data.age,
-        type: data.type,
-        user_role: data.userRole,
       }
     }
 
-   const result = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/student`, {
+    console.log(`convert(): ${JSON.stringify(convert(),null,2)}`)
+    const result = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/students`, {
       method: 'post',
       headers: {
         "Content-Type": "application/json",

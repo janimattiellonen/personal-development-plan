@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 
-import {ClubTable} from "./ClubTable";
-
 import {Wrapper} from "../../../components/Wrapper";
 
 import {Loader} from "../../../components/Loader";
 
-import {ClubType} from "../../../types/types";
 
-export default function ListClubs() {
+export default function ListExercises() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [clubs, setClubs] = useState<ClubType[]>([])
@@ -18,7 +15,7 @@ export default function ListClubs() {
     const fetchClubs = async () => {
       setIsLoading(true);
 
-      const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/clubs`)
+      const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/exercises`)
 
       const json = await res.json();
       setIsLoading(false);
@@ -31,11 +28,11 @@ export default function ListClubs() {
 
   return (
     <Wrapper>
-      <h1>List clubs</h1>
+      <h1>List Exercises</h1>
 
       {isLoading && <Loader/>}
 
-      {clubs.length > 0 && <ClubTable data={clubs} />}
+      {clubs.length > 0 && <div></div>}
     </Wrapper>
   );
 }

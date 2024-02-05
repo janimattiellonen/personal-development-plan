@@ -1,4 +1,4 @@
-import {ReactNode, useState} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import {useFormContext} from "react-hook-form";
 
 import {Table} from "@radix-ui/themes";
@@ -10,6 +10,7 @@ import styled from "@emotion/styled";
 import {Error as ErrorElement} from "./Error";
 import {ExclamationTriangleIcon} from "@radix-ui/react-icons";
 import {ErrorMessage} from "@hookform/error-message";
+
 
 const SelectedUser = styled.div`
   padding: var(--space-md);
@@ -47,7 +48,8 @@ const StyledRow = styled(Table.Row)`
 
 type UserType = {
   id: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string
 }
 
@@ -55,11 +57,14 @@ type UserSelectorProps = {
   name: string;
   title?: string | ReactNode;
   type: 'student' | 'instructor';
+  user?: UserType | null;
 }
-export function UserSelector({name, title, type}: UserSelectorProps) {
-  const [users, setUsers] = useState<UserType[]>([])
-  const [selectedUser, setSelectedUser] = useState<UserType | undefined>(undefined);
+export function UserSelector({name, title, type, user}: UserSelectorProps) {
+  const [users, setUsers] = useState<UserType[] | null>([])
+  const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
   const {setValue,formState: {errors}} = useFormContext();
+
+
   const handleEvent = async (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
     const term = e.target.value;
@@ -68,13 +73,33 @@ export function UserSelector({name, title, type}: UserSelectorProps) {
       throw new Error(`Invalid type ${type}`);
     }
 
-    const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/student/?term=${term}&type=${type}`)
+    const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/students/?term=${term}&type=${type}`)
 
     const json = await res.json();
 
-    setUsers(json.data);
+    console.log(`foo: ${JSON.stringify(json,null,2)}`)
+
+    const convert = () => {
+      return json.data.map((user: any) => {
+        return {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        }
+      })
+
+    }
+    setUsers(convert());
   }
 
+  useEffect(() => {
+    if (user) {
+      setSelectedUser(user);
+      setUsers([user]);
+      setValue(name, user.id);
+    }
+  }, [user]);
 
   return <div>
     {title != null && <h1>{title}</h1>}
@@ -85,7 +110,7 @@ export function UserSelector({name, title, type}: UserSelectorProps) {
         <h2>Selected user</h2>
 
         <div>
-          {selectedUser.id}: {selectedUser.name} ({selectedUser.email})
+          {selectedUser.id}: {selectedUser.firstName} {selectedUser.lastName}({selectedUser.email})
         </div>
     </SelectedUser>}
 
@@ -95,7 +120,7 @@ export function UserSelector({name, title, type}: UserSelectorProps) {
       render={({ message }) => <ErrorElement><ExclamationTriangleIcon/>{message}</ErrorElement>}
     />
 
-    {users.length > 0 && <UserList>
+    {users && users.length > 0 && <UserList>
         <StyledTable variant="ghost">
           <Table.Header>
             <Table.Row>
@@ -110,17 +135,18 @@ export function UserSelector({name, title, type}: UserSelectorProps) {
             return (
               <StyledRow key={user.id}>
                 <Table.Cell>{user.id}</Table.Cell>
-                <Table.Cell>{user.name}</Table.Cell>
+                <Table.Cell>{user.firstName} {user.lastName}</Table.Cell>
                 <Table.Cell>{user.email}</Table.Cell>
                 <Table.Cell><Button style={{marginLeft: 16}} onPress={
                   () => {
+                    console.log(`name: ${name}`)
                     setValue(name, user.id);
                     setSelectedUser(user);
                   }}>Select</Button>
                   {selectedUser?.id === user.id && <Button className="danger" style={{marginLeft: 16}} onPress={
                     () => {
-                      setValue(name, undefined);
-                      setSelectedUser(undefined);
+                      setValue(name, null);
+                      setSelectedUser(null);
                     }}>Remove</Button>}</Table.Cell>
               </StyledRow>
             )
