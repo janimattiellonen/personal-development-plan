@@ -15,6 +15,7 @@ const ListDevelopmentPlans = lazy(() => import("./views/admin/developmentPlan/Li
 const NewStudentForm= lazy(() =>  import("./views/admin/student/NewStudentForm"));
 
 const NewExerciseForm = lazy(() =>  import("./views/admin/exercise/NewExerciseForm"));
+const ListExercises = lazy(() =>  import("./views/admin/exercise/ListExercises"));
 
 import {Main} from "./views/layouts/Main";
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="club/:id/edit" element={<EditClub/>} />
           <Route path="clubs" element={<ListClubs />} />
           <Route path="exercise/new" element={<NewExerciseForm />} />
+          <Route path="exercises" element={<ListExercises />} />
         </Route>
       </>
     ), []

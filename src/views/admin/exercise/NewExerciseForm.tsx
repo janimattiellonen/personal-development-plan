@@ -30,8 +30,6 @@ type Inputs = {
   isActive: boolean;
 }
 
-
-
 export default function NewExerciseForm() {
   const methods = useForm({
     defaultValues: {

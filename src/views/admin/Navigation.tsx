@@ -17,6 +17,7 @@ export function Navigation() {
       <Link to={'/admin/club/new'} >Add new club</Link>
       <Link to={'/admin/clubs'} >List clubs</Link>
       <Link to={'/admin/exercise/new'} >Add new exercise</Link>
+      <Link to={'/admin/exercises'} >List exercises</Link>
     </StyledNav>
   );
 }
