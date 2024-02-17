@@ -14,9 +14,10 @@ const EditDevelopmentPlan= lazy(() =>  import("./views/admin/developmentPlan/Edi
 const ListDevelopmentPlans = lazy(() => import("./views/admin/developmentPlan/ListDevelopmentPlans"));
 const NewStudentForm= lazy(() =>  import("./views/admin/student/NewStudentForm"));
 
-const NewExerciseForm = lazy(() =>  import("./views/admin/exercise/NewExerciseForm"));
+const NewExercise = lazy(() =>  import("./views/admin/exercise/NewExercise"));
+const EditExercise = lazy(() =>  import("./views/admin/exercise/EditExercise"));
 const ListExercises = lazy(() =>  import("./views/admin/exercise/ListExercises"));
-
+const Exercises = lazy(() =>  import("./views/admin/trainingSession/Exercises"));
 import {Main} from "./views/layouts/Main";
 
 function App() {
@@ -33,8 +34,10 @@ function App() {
           <Route path="club/new" element={<NewClub/>} />
           <Route path="club/:id/edit" element={<EditClub/>} />
           <Route path="clubs" element={<ListClubs />} />
-          <Route path="exercise/new" element={<NewExerciseForm />} />
+          <Route path="exercise/new" element={<NewExercise />} />
+          <Route path="exercise/:id/edit" element={<EditExercise />} />
           <Route path="exercises" element={<ListExercises />} />
+          <Route path="training-session/:id/exercise/add" element={<Exercises />} />
         </Route>
       </>
     ), []

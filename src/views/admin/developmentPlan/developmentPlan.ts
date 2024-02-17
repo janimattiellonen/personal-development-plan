@@ -19,10 +19,12 @@ export const schema = z.object({
 });
 
 export type TrainingSessionType = {
+  id?: number | null;
   name: string;
   isActive: boolean;
   startsAt: any;
   endsAt?: any;
+  exercises?: []
 }
 
 export type Inputs = {

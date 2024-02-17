@@ -8,24 +8,25 @@ import {ExerciseType} from "../../../types/types";
 
 import{ExerciseTable} from "./ExerciseTable";
 
+import {deleteExercise} from "./exercise";
+
 export default function ListExercises() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [exercises, setExercises] = useState<ExerciseType[]>([])
 
+  const fetchExercises = async () => {
+    setIsLoading(true);
+
+    const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/exercises`)
+
+    const json = await res.json();
+    setIsLoading(false);
+
+    setExercises(json.data);
+  }
+
   useEffect( () => {
-
-    const fetchExercises = async () => {
-      setIsLoading(true);
-
-      const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/exercises`)
-
-      const json = await res.json();
-      setIsLoading(false);
-
-      setExercises(json.data);
-    }
-
     fetchExercises();
   }, [setExercises])
 
@@ -36,7 +37,7 @@ export default function ListExercises() {
       {isLoading && <Loader/>}
 
       {exercises.length > 0 && <div>
-        <ExerciseTable data={exercises} />
+        <ExerciseTable remove={deleteExercise} data={exercises} refresh={() => fetchExercises()}/>
       </div>}
     </Wrapper>
   );

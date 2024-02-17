@@ -13,18 +13,19 @@ export default function ListClubs() {
 
   const [clubs, setClubs] = useState<ClubType[]>([])
 
+  const fetchClubs = async () => {
+    setIsLoading(true);
+
+    const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/clubs`)
+
+    const json = await res.json();
+    setIsLoading(false);
+
+    setClubs(json.data);
+  }
+
   useEffect( () => {
-
-    const fetchClubs = async () => {
-      setIsLoading(true);
-
-      const res =  await fetch(`${import.meta.env.VITE_API_URL}/api/admin/clubs`)
-
-      const json = await res.json();
-      setIsLoading(false);
-
-      setClubs(json.data);
-    }
+    console.log('ListClubs::useEffect');
 
     fetchClubs();
   }, [setClubs])
@@ -35,7 +36,7 @@ export default function ListClubs() {
 
       {isLoading && <Loader/>}
 
-      {clubs.length > 0 && <ClubTable data={clubs} />}
+      {clubs.length > 0 && <ClubTable data={clubs} refresh={() => fetchClubs()}/>}
     </Wrapper>
   );
 }

@@ -12,7 +12,7 @@ export async function createClub(data: ClubInputs) {
       "Content-Type": "application/json",
     },
 
-    body: JSON.stringify(convert(data))
+    body: JSON.stringify(data)
   })
 }
 
@@ -23,12 +23,12 @@ export async function updateClub(id: number, data: ClubInputs) {
       "Content-Type": "application/json",
     },
 
-    body: JSON.stringify(convert(data))
+    body: JSON.stringify(data)
   })
 }
 
 export async function removeClub(id: number) {
-  return fetch(`${import.meta.env.VITE_API_URL}/api/admin/clubs/${id}`, {
+  return fetch(`${import.meta.env.VITE_API_URL}/api/admin/clubs/${id}1111`, {
     method: 'delete',
     headers: {
       "Content-Type": "application/json",
@@ -36,13 +36,6 @@ export async function removeClub(id: number) {
   })
 }
 
-
-const convert = (data: ClubInputs) => {
-  return {
-    name: data.name,
-    is_active: data.isActive,
-  }
-}
 
 export const schema = z.object({
   name: z.string().min(3, { message: 'Required' }).max(255),

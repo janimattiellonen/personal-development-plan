@@ -8,6 +8,10 @@ type ServerErrorProps = {
 export function ServerError({errorMessage}: ServerErrorProps) {
   const { formState: {errors}} = useFormContext();
 
+  if (!errors?.root?.serverError?.message && !!errorMessage) {
+    return <Alert color="red">{errorMessage}</Alert>
+  }
+
   return (
     errors?.root?.serverError?.message && <Alert color="red">{errorMessage ? `${errorMessage}: ` : ''}{errors?.root?.serverError?.message}</Alert>
   )

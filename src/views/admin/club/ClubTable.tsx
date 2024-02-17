@@ -1,6 +1,8 @@
 import {useState} from "react";
 
-import {Link} from "react-router-dom";
+import {IconButton} from "@radix-ui/themes";
+
+import {useNavigate} from "react-router-dom";
 
 import {Cross1Icon, Pencil2Icon} from "@radix-ui/react-icons";
 
@@ -8,50 +10,57 @@ import {removeClub} from "./club";
 
 import {Alert} from "../../../components/Alert";
 
+import {AlertDialog} from "../../../components/AlertDialog";
+
 import * as Table from "../../../components/Table";
 
 import {ClubType} from "../../../types/types";
 
+import {useErrorMessage} from "../../../types/error";
+
 type ClubTableProps = {
   data: ClubType[];
+  refresh: () => void
 }
 
-function createErrorMessage(response: Response): string | null {
-  if (response.ok) {
-    return null;
-  }
+export function ClubTable({data, refresh}: ClubTableProps) {
+  const navigate = useNavigate();
 
-  if (response.status === 403) {
-    return 'Could not remove the book due to lacking permissions.'
-  }
+  const {createErrorMessage} = useErrorMessage('exercise');
 
-  if (response.status === 404) {
-    return 'The club you tried to remove does not exist.';
-  }
+  const [isDialogVisible, showDialog] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [selectedClub, setSelectedClub] = useState<ClubType | null>(null);
 
-  if (response.status >= 400 && response.status < 500) {
-    return 'Could not remove the book due to an error.'
-  }
-
-  if (response.status >= 500) {
-    return 'Could not remove the book due to a server error.';
-  }
-
-  return null;
-}
-
-export function ClubTable({data}: ClubTableProps) {
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const handleRemove = async (id: number) => {
     const response = await removeClub(id);
 
-    if (!response.ok) {
+    if (response.ok) {
+      refresh();
+    } else {
+      refresh();
+
       setErrorMessage(createErrorMessage(response));
     }
   }
+
   return (
     <div>
+      <AlertDialog
+        open={isDialogVisible}
+        title={`Delete club ${selectedClub?.name}?`}
+        onCancel={() => {
+          setSelectedClub(null)
+          showDialog(false);
+        }}
+        onConfirm={() => {
+          if (selectedClub?.id) {
+            handleRemove(selectedClub?.id)
+          }
+
+          showDialog(false);
+        }}
+      />
       <Table.Root variant={"ghost"}>
         <Table.Header>
           <Table.Row>
@@ -69,7 +78,13 @@ export function ClubTable({data}: ClubTableProps) {
                 <Table.Cell>{club.id}</Table.Cell>
                 <Table.Cell>{club.name}</Table.Cell>
                 <Table.Cell>{club.isActive}</Table.Cell>
-                <Table.Cell><Link to={`/admin/club/${club.id}/edit`}><Pencil2Icon /></Link> <Link to={`/admin/club/${club.id}/edit`}></Link><Cross1Icon onClick={() => handleRemove(club.id)}/></Table.Cell>
+                <Table.ActionCell>
+                  <IconButton size={'1'} onClick={() => navigate(`/admin/club/${club.id}/edit`)}><Pencil2Icon /></IconButton>
+                  <IconButton size={'1'} color={'red'} onClick={() => {
+                    setSelectedClub(club);
+                    showDialog(true);
+                  }}><Cross1Icon /></IconButton>
+                </Table.ActionCell>
               </Table.Row>
             );
           })}

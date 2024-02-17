@@ -22,6 +22,7 @@ export type UserType = {
 }
 
 type TrainingSessionType = {
+  id?: number;
   name: string;
   isActive: boolean;
   startsAt: any;
@@ -45,7 +46,7 @@ export default function EditDevelopmentPlan() {
       goals: '',
       studentId: 0,
       instructorId: 0,
-      trainingSessions: [{ name: "", isActive: false, startsAt: null, endsAt: null}]
+      trainingSessions: [{ id: null, name: "", isActive: false, startsAt: null, endsAt: null}]
     },
     resolver: zodResolver(schema)
   })
@@ -103,8 +104,6 @@ export default function EditDevelopmentPlan() {
   const {setError} = methods;
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(`data is: ${JSON.stringify(data,null,2)}`)
-
     const result = await updateDevelopmentPlan(developmentPlan, data);
 
     const json = await result.json();

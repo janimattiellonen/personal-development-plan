@@ -24,9 +24,25 @@ const StyledRow = styled(RUTable.Row)`
   }
 `;
 
+
 const Body = RUTable.Body
 
 const Cell = RUTable.Cell
+
+
+const ActionCell = styled(Cell)`
+  button {
+      margin-right: var(--space-md);
+
+  }
+    
+    svg {
+        
+        &:hover {
+            color: var(--color-accent-background-strong);
+        }
+    }
+`
 
 const ColumnHeaderCell = RUTable.ColumnHeaderCell
 
@@ -53,4 +69,4 @@ function Row({children, ...props}: RowProps) {
   )
 }
 
-export {Body, Cell, ColumnHeaderCell, Header, Root, Row}
+export {ActionCell, Body, Cell, ColumnHeaderCell, Header, Root, Row}

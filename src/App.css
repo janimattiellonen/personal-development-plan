@@ -226,6 +226,10 @@ body {
     width: 80%;
 }
 
+p {
+    margin: 0;
+}
+
 h1 {
     margin-bottom: var(--space-xxl);
 }
