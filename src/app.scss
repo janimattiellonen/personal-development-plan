@@ -1,0 +1,431 @@
+@import '@radix-ui/themes/styles.css';
+@import '@radix-ui/colors/gray.css';
+@import '@radix-ui/colors/blue.css';
+@import '@radix-ui/colors/red.css';
+
+
+/*
+ https://www.radix-ui.com/colors/docs/palette-composition/understanding-the-scale
+*/
+
+
+:root {
+  --foo: red;
+  --component: var(--gray-2);
+
+  --border: var(--gray-6);
+
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-md: 8px;
+  --space-xl: 16px;
+  --space-xxl: 32px;
+
+  --radius-xs: 4px;
+  --radius-md: 8px;
+
+  --primitive-color-accent-1: var(--blue-1);
+  --primitive-color-accent-2: var(--blue-2);
+  --primitive-color-accent-3: var(--blue-3);
+  --primitive-color-accent-4: var(--blue-4);
+  --primitive-color-accent-5: var(--blue-5);
+  --primitive-color-accent-6: var(--blue-6);
+  --primitive-color-accent-7: var(--blue-7);
+  --primitive-color-accent-8: var(--blue-8);
+  --primitive-color-accent-9: var(--blue-9);
+  --primitive-color-accent-10: var(--blue-10);
+  --primitive-color-accent-11: var(--blue-11);
+  --primitive-color-accent-12: var(--blue-12);
+
+  --primitive-color-neutral-1: var(--gray-1);
+  --primitive-color-neutral-2: var(--gray-2);
+  --primitive-color-neutral-3: var(--gray-3);
+  --primitive-color-neutral-4: var(--gray-4);
+  --primitive-color-neutral-5: var(--gray-5);
+  --primitive-color-neutral-6: var(--gray-6);
+  --primitive-color-neutral-7: var(--gray-7);
+  --primitive-color-neutral-8: var(--gray-8);
+  --primitive-color-neutral-9: var(--gray-9);
+  --primitive-color-neutral-10: var(--gray-10);
+  --primitive-color-neutral-11: var(--gray-11);
+  --primitive-color-neutral-12: var(--gray-12);
+
+  --primitive-color-danger-1: var(--red-1);
+  --primitive-color-danger-2: var(--red-2);
+  --primitive-color-danger-3: var(--red-3);
+  --primitive-color-danger-4: var(--red-4);
+  --primitive-color-danger-5: var(--red-5);
+  --primitive-color-danger-6: var(--red-6);
+  --primitive-color-danger-7: var(--red-7);
+  --primitive-color-danger-8: var(--red-8);
+  --primitive-color-danger-9: var(--red-9);
+  --primitive-color-danger-10: var(--red-10);
+  --primitive-color-danger-11: var(--red-11);
+  --primitive-color-danger-12: var(--red-12);
+
+  --color-accent-background-weak: var(--primitive-color-accent-1);
+  --color-accent-background: var(--primitive-color-accent-2);
+  --color-accent-component-weak: var(--primitive-color-accent-3);
+  --color-accent-component: var(--primitive-color-accent-4);
+  --color-accent-component-hover: var(--primitive-color-accent-5);
+  --color-accent-component-active: var(--primitive-color-accent-6);
+  --color-accent-border-weak: var(--primitive-color-accent-6);
+  --color-accent-border: var(--primitive-color-accent-7);
+  --color-accent-border-hover: var(--primitive-color-accent-8);
+  --color-accent-border-focus: var(--primitive-color-accent-8);
+  --color-accent-border-active: var(--primitive-color-accent-9);
+  --color-accent-background-strong: var(--primitive-color-accent-9);
+  --color-accent-background-strong-hover: var(--primitive-color-accent-10);
+  --color-accent-text-disabled: var(--primitive-color-accent-10);
+  --color-accent-text-weak: var(--primitive-color-accent-11);
+  --color-accent-text: var(--primitive-color-accent-12);
+
+  --color-neutral-background-weak: var(--primitive-color-neutral-1);
+  --color-neutral-background: var(--primitive-color-neutral-2);
+  --color-neutral-component-weak: var(--primitive-color-neutral-3);
+  --color-neutral-component: var(--primitive-color-neutral-4);
+  --color-neutral-component-hover: var(--primitive-color-neutral-5);
+  --color-neutral-component-active: var(--primitive-color-neutral-6);
+  --color-neutral-border-weak: var(--primitive-color-neutral-6);
+  --color-neutral-border: var(--primitive-color-neutral-7);
+  --color-neutral-border-hover: var(--primitive-color-neutral-8);
+  --color-neutral-border-focus: var(--primitive-color-accent-8);
+  --color-neutral-border-active: var(--primitive-color-neutral-9);
+  --color-neutral-background-strong: var(--primitive-color-neutral-9);
+  --color-neutral-background-strong-hover: var(--primitive-color-neutral-10);
+  --color-neutral-text-disabled: var(--primitive-color-neutral-10);
+  --color-neutral-text-weak: var(--primitive-color-neutral-11);
+  --color-neutral-text: var(--primitive-color-neutral-12);
+
+  --color-danger-background-weak: var(--primitive-color-danger-1);
+  --color-danger-background: var(--primitive-color-danger-2);
+  --color-danger-component-weak: var(--primitive-color-danger-3);
+  --color-danger-component: var(--primitive-color-danger-4);
+  --color-danger-component-hover: var(--primitive-color-danger-5);
+  --color-danger-component-active: var(--primitive-color-danger-6);
+  --color-danger-border-weak: var(--primitive-color-danger-6);
+  --color-danger-border: var(--primitive-color-danger-7);
+  --color-danger-border-hover: var(--primitive-color-danger-8);
+  --color-danger-border-focus: var(--primitive-color-accent-8);
+  --color-danger-border-active: var(--primitive-color-danger-9);
+  --color-danger-background-strong: var(--primitive-color-danger-9);
+  --color-danger-background-strong-hover: var(--primitive-color-danger-10);
+  --color-danger-text-disabled: var(--primitive-color-danger-10);
+  --color-danger-text-weak: var(--primitive-color-danger-11);
+  --color-danger-text: var(--primitive-color-danger-12);
+
+
+  --button-accent-primary-default-background: var(--color-accent-component-weak);
+  --button-accent-primary-default-border: var(--color-accent-border-weak);
+
+  --button-accent-primary-hover-background: var(--color-accent-component-hover);
+  --button-accent-primary-hover-border: var(--color-accent-border-hover);
+
+  --button-accent-primary-active-background: var(--color-accent-component-hover);
+  --button-accent-primary-active-border: var(--color-accent-border-weak);
+  --button-accent-primary-active-outline: var(--color-accent-border-weak);
+
+  --button-accent-primary-disabled-background: var(--color-neutral-background-weak);
+  --button-accent-primary-disabled-border: var(--color-neutral-border-weak);
+  --button-accent-primary-disabled-color: var(--color-neutral-text-disabled);
+
+
+  --button-accent-secondary-default-background: var(--color-accent-background);
+  --button-accent-secondary-default-border: var(--color-accent-border-weak);
+
+  --button-accent-secondary-hover-background: var(--color-accent-component-hover);
+  --button-accent-secondary-hover-border: var(--color-accent-border-hover);
+
+  --button-accent-secondary-active-background: var(--color-accent-component-hover);
+  --button-accent-secondary-active-border: var(--color-accent-border-weak);
+  --button-accent-secondary-active-outline: var(--color-accent-border-weak);
+
+  --button-accent-secondary-disabled-background: var(--color-neutral-background-weak);
+  --button-accent-secondary-disabled-border: var(--color-neutral-border-weak);
+  --button-accent-secondary-disabled-color: var(--color-neutral-text-disabled);
+
+
+
+
+  --button-neutral-primary-default-background: var(--color-neutral-component-weak);
+  --button-neutral-primary-default-border: var(--color-neutral-border-weak);
+
+  --button-neutral-primary-hover-background: var(--color-neutral-component-hover);
+  --button-neutral-primary-hover-border: var(--color-neutral-border-hover);
+
+  --button-neutral-primary-active-background: var(--color-neutral-component-hover);
+  --button-neutral-primary-active-border: var(--color-neutral-border-weak);
+  --button-neutral-primary-active-outline: var(--color-accent-border-weak);
+
+  --button-neutral-primary-disabled-background: var(--color-neutral-background-weak);
+  --button-neutral-primary-disabled-border: var(--color-neutral-border-weak);
+  --button-neutral-primary-disabled-color: var(--color-neutral-text-disabled);
+
+
+  --button-neutral-secondary-default-background: var(--color-neutral-background);
+  --button-neutral-secondary-default-border: var(--color-neutral-border-weak);
+
+  --button-neutral-secondary-hover-background: var(--color-neutral-component-hover);
+  --button-neutral-secondary-hover-border: var(--color-neutral-border-hover);
+
+  --button-neutral-secondary-active-background: var(--color-neutral-component-hover);
+  --button-neutral-secondary-active-border: var(--color-neutral-border-weak);
+  --button-neutral-secondary-active-outline: var(--color-accent-border-weak);
+
+  --button-neutral-secondary-disabled-background: var(--color-neutral-background-weak);
+  --button-neutral-secondary-disabled-border: var(--color-neutral-border-weak);
+  --button-neutral-secondary-disabled-color: var(--color-neutral-text-disabled);
+
+
+
+
+  --button-danger-primary-default-background: var(--color-danger-component-weak);
+  --button-danger-primary-default-border: var(--color-danger-border-weak);
+
+  --button-danger-primary-hover-background: var(--color-danger-component-hover);
+  --button-danger-primary-hover-border: var(--color-danger-border-hover);
+
+  --button-danger-primary-active-background: var(--color-danger-component-hover);
+  --button-danger-primary-active-border: var(--color-danger-border-weak);
+  --button-danger-primary-active-outline: var(--color-accent-border-weak);
+
+  --button-danger-primary-disabled-background: var(--color-danger-background-weak);
+  --button-danger-primary-disabled-border: var(--color-danger-border-weak);
+  --button-danger-primary-disabled-color: var(--color-danger-text-disabled);
+
+
+  --button-danger-secondary-default-background: var(--color-danger-background);
+  --button-danger-secondary-default-border: var(--color-danger-border-weak);
+
+  --button-danger-secondary-hover-background: var(--color-danger-component-hover);
+  --button-danger-secondary-hover-border: var(--color-danger-border-hover);
+
+  --button-danger-secondary-active-background: var(--color-danger-component-hover);
+  --button-danger-secondary-active-border: var(--color-danger-border-weak);
+  --button-danger-secondary-active-outline: var(--color-accent-border-weak);
+
+  --button-danger-secondary-disabled-background: var(--color-danger-background-weak);
+  --button-danger-secondary-disabled-border: var(--color-danger-border-weak);
+  --button-danger-secondary-disabled-color: var(--color-danger-text-disabled);
+
+  --error-text: var(--red-11);
+
+  ---danger: var(--red-1);
+}
+
+
+body {
+  background: white;
+  margin: 0 auto;
+  margin-top: 64px;
+
+  width: 80%;
+}
+
+p {
+  margin: 0;
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+input[type="submit"], button.react-aria-Button {
+  background: var(--blue-5);
+  border: solid 1px var(--blue-8);
+  border-radius: 8px;
+  padding: var(--space-md);
+}
+
+button.react-aria-Button.danger {
+  color: var(--color-danger-text);
+  background: var(--color-danger-component);
+  border: solid 1px var(--color-danger-border);
+}
+
+.react-aria-Popover {
+  border: solid 1px var(--color-neutral-border-weak);
+  background: var(--color-neutral-background);
+  color: black;
+  box-sizing: border-box;
+  border-radius: var(--radius-md);
+  outline: none;
+  max-width: 250px;
+  box-shadow: 0 8px 20px #0000001a;
+  padding: var(--space-md);
+}
+
+.react-aria-Popover button {
+  color: var(--color-accent-text-weak);
+  font-size: 0.75rem;
+  width: 20px;
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-xs);
+  padding: var(--space-xs);
+}
+
+
+
+.react-aria-Popover table {
+  width: 100%;
+}
+
+.react-aria-Popover header {
+  display: flex;
+  background: var(--color-neutral-component);
+  padding: var(--space-md);
+  gap: var(--space-md);
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.react-aria-Popover header h2 {
+  margin: 0;
+}
+
+.rt-TextFieldChrome {
+  display: none;
+}
+
+
+.radix-themes {
+  --font-size-1: calc(0.75rem * var(--scaling));
+  --font-size-2: calc(0.875rem * var(--scaling));
+  --font-size-3: calc(1rem * var(--scaling));
+  --font-size-4: calc(1.125rem * var(--scaling));
+  --font-size-5: calc(1.25rem * var(--scaling));
+  --font-size-6: calc(1.5rem * var(--scaling));
+  --font-size-7: calc(1.75rem * var(--scaling));
+  --font-size-8: calc(2.1875rem * var(--scaling));
+  --font-size-9: calc(3.75rem * var(--scaling));
+
+  .rt-Heading {
+    margin-bottom: var(--space-md);
+  }
+
+  h1.rt-r-size-6 {
+    font-size: 2rem;
+  }
+
+  h2.rt-r-size-6 {
+    font-size: 1.5rem;
+  }
+
+  h3.rt-r-size-6 {
+    font-size: 1.25rem;
+  }
+
+  h4.rt-r-size-6 {
+    font-size: 1rem;
+  }
+
+  .rt-Text {
+    &.rt-r-size-3 {
+        // font-size: 1rem;
+    }
+  }
+}
+
+
+/* Radix.ui Accordion */
+
+.AccordionRoot {
+  border-radius: 6px;
+  width: 300px;
+  background-color: var(--mauve-6);
+  box-shadow: 0 2px 10px var(--black-a4);
+}
+
+.AccordionItem {
+  overflow: hidden;
+  margin-top: 1px;
+}
+
+.AccordionItem:first-child {
+  margin-top: 0;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.AccordionItem:last-child {
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.AccordionItem:focus-within {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--mauve-12);
+}
+
+.AccordionHeader {
+  display: flex;
+}
+
+.AccordionTrigger {
+  font-family: inherit;
+  background-color: transparent;
+  padding: 0 20px;
+  height: 45px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--violet-11);
+  box-shadow: 0 1px 0 var(--mauve-6);
+  background-color: white;
+}
+
+.AccordionTrigger:hover {
+  background-color: var(--mauve-2);
+}
+
+.AccordionContent {
+  overflow: hidden;
+  font-size: 15px;
+  color: var(--mauve-11);
+  background-color: var(--mauve-2);
+}
+.AccordionContent[data-state='open'] {
+  animation: slideDown 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+.AccordionContent[data-state='closed'] {
+  animation: slideUp 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+.AccordionContentText {
+  padding: 15px 20px;
+}
+
+.AccordionChevron {
+  color: var(--violet-10);
+  transition: transform 300ms cubic-bezier(0.87, 0, 0.13, 1);
+}
+.AccordionTrigger[data-state='open'] > .AccordionChevron {
+  transform: rotate(180deg);
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+/* End Radix.ui Accordion */

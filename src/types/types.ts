@@ -1,4 +1,14 @@
 
+export type CategoryType = {
+  id: number;
+  name: string;
+  isActive: number;
+  parentCategoryId: number | null;
+  createdAt: string;
+  updatedAt: string;
+  children?: CategoryType[];
+};
+
 export type ClubType = {
   id: number;
   name: string;

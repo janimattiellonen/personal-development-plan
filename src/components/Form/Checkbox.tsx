@@ -53,13 +53,13 @@ export function Checkbox({id, className, name, label}: CheckboxProps) {
         const {onChange, value, ...rest} = field
         return (
           <Wrapper>
-          <StyledCheckBox checked={value} onCheckedChange={onChange} id={id} className={className} {...rest}>
-            <RadixCheckbox.Indicator>
-              <CheckIcon/>
-            </RadixCheckbox.Indicator>
-          </StyledCheckBox>
+            <StyledCheckBox checked={value} onCheckedChange={onChange} id={id} className={className} {...rest}>
+              <RadixCheckbox.Indicator>
+                <CheckIcon/>
+              </RadixCheckbox.Indicator>
+            </StyledCheckBox>
 
-          <Label.Root htmlFor={id}>{label}</Label.Root>
+            <Label.Root htmlFor={id}>{label}</Label.Root>
             <ErrorMessage
               errors={errors}
               name={name}

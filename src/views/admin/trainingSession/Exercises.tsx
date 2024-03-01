@@ -11,6 +11,7 @@ import {TrainingSessionType} from "../developmentPlan/developmentPlan";
 import {removeExerciseFromTrainingSession} from "../exercise/exercise";
 
 import {AvailableExercises} from "./AvailableExercises";
+import {Heading} from "@radix-ui/themes";
 
 export default function Exercises() {
   const [trainingSession, setTrainingSession] = useState<TrainingSessionType | null>(null);
@@ -33,7 +34,7 @@ export default function Exercises() {
 
   return (
     <div>
-      <h2>Exercises added to training session</h2>
+      <Heading as="h2">Exercises added to training session</Heading>
 
       {trainingSession && (
         <ExerciseTable

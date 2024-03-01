@@ -7,8 +7,10 @@ export function fetchTrainingSession(id: number) {
   })
 }
 
-export function fetchAvailableExercises(id: number) {
-  return fetch(`${import.meta.env.VITE_API_URL}/api/admin/training-sessions/${id}/available-exercises`, {
+export function fetchAvailableExercises(id: number, selectedCategoryIds: number[]) {
+   const queryString = new URLSearchParams([['selectedCategories', selectedCategoryIds.join(',')]]).toString();
+
+  return fetch(`${import.meta.env.VITE_API_URL}/api/admin/training-sessions/${id}/available-exercises?${queryString}`, {
     method: 'get',
     headers: {
       "Content-Type": "application/json",

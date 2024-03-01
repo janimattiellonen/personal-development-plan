@@ -7,8 +7,7 @@ import { Theme } from '@radix-ui/themes';
 import '@radix-ui/themes/styles.css';
 
 import './reset.css';
-import './App.css'
-
+import './app.scss';
 
 import App from './App.tsx'
 

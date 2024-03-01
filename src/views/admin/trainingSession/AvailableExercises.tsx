@@ -2,8 +2,20 @@ import {useEffect, useState} from "react";
 
 import styled from "@emotion/styled";
 
+import {Heading} from "@radix-ui/themes";
+
+
+import {Card} from "@radix-ui/themes";
+
+
 import{ fetchAvailableExercises, addExerciseToTrainingSession} from "./exercise";
 import {Alert} from "../../../components/Alert";
+
+import {Button} from "../../../components/Button";
+
+import {ExerciseItem} from "./ExerciseItem";
+
+import AccordionDemo from "../../../components/AccordionDemo";
 
 const Flex = styled.div`
   display: flex;
@@ -12,8 +24,6 @@ const Flex = styled.div`
 `
 
 const Row = styled.div`
-    background: gray;
-    padding: var(--space-md);
 `
 
 type AvailableExercisesProps = {
@@ -23,11 +33,20 @@ type AvailableExercisesProps = {
 }
 export function AvailableExercises({trainingSessionId, ts, refresh}: AvailableExercisesProps) {
   const [exercises, setExercises] = useState<[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<number[]>([]);
   const [successfullyAdded, setSuccessfullyAdded] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const fetchExerciseData = async () => {
-    const response = await fetchAvailableExercises(trainingSessionId);
+
+  const arr = [0,1,2,3];
+  const index = arr.findIndex((value) => value === 2)
+
+  if (index !== -1) {
+    console.log('ss');
+  }
+
+  const fetchExerciseData = async (selectedCategories: number[]) => {
+    const response = await fetchAvailableExercises(trainingSessionId, selectedCategories);
     const json = await response.json();
 
     const data = json.data;
@@ -51,19 +70,29 @@ export function AvailableExercises({trainingSessionId, ts, refresh}: AvailableEx
   useEffect(() => {
     setSuccessfullyAdded(false);
     setErrorMessage(null);
-    fetchExerciseData();
-  }, [trainingSessionId, ts]);
+    fetchExerciseData(selectedCategories);
+  }, [trainingSessionId, ts, selectedCategories]);
 
   return (
     <div>
-      <h2>Available exercises</h2>
+      <Heading as="h2">Available exercises</Heading>
+
+      <p>Select and add exercises you find useful.</p>
+
+
+      <div>
+        <Button>Puttausharjoitus</Button>
+
+        <AccordionDemo onSelectCategories={(selected) => {setSelectedCategories(selected)}}/>
+      </div>
 
       <Flex>
         {exercises.map((exercise: any, i: number) => {
           return (
-            <Row key={i}>
-              <div>{exercise.name} <button onClick={() => onAddExercise(exercise.id)}>Add to training session</button></div>
-            </Row>
+            <Card key={i}>
+              <ExerciseItem exercise={exercise} />
+              <div><Button onClick={() => onAddExercise(exercise.id)}>Add to training session</Button></div>
+            </Card>
           )
         })}
       </Flex>
